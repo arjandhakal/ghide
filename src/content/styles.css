@@ -1,24 +1,402 @@
-#gemfold-root {
-  margin: 8px 12px;
-  padding: 8px;
-  background-color: rgba(68, 71, 70, 0.15); /* Mimic Gemini surface */
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #e3e3e3;
+#ghide-root {
+  /* Relative Position */
+  position: relative;
+  z-index: 100;
+  
+  /* Gemini Visual Style - Transparent to match sidebar theme */
+  margin: 0 0 8px 0;
+  padding: 12px 8px; 
+  
+  background-color: transparent; 
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2); /* Subtle separator */
+  
+  /* Inherit colors from parent for Light/Dark mode compatibility */
+  color: inherit;
   font-family: "Google Sans", "Helvetica Neue", sans-serif;
   font-size: 14px;
 }
 
-.gemfold-header {
+/* --- Collapsed State --- */
+.ghide-hidden {
+    display: none !important;
+}
+
+/* --- Header Styling (Matches GEMS/RECENT) --- */
+.ghide-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-bottom: 4px;
+  
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: inherit; 
+  opacity: 0.8; 
+  height: 24px;
+}
+
+.ghide-header-title {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: 500;
-  margin-bottom: 4px;
 }
 
-.gemfold-body {
-  font-size: 12px;
-  opacity: 0.8;
-  padding-left: 4px;
+.ghide-new-folder-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: all 0.2s;
+  width: 24px;
+  height: 24px;
+}
+
+.ghide-new-folder-btn:hover {
+  background-color: rgba(128, 128, 128, 0.1);
+  opacity: 1;
+}
+
+/* --- Tree Structure --- */
+.ghide-tree-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ghide-folder-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Folder Row --- */
+.ghide-folder-row {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 100px; /* Pill Shape */
+  cursor: pointer;
+  color: inherit;
+  transition: background-color 0.1s;
+  user-select: none;
+  min-height: 32px;
+}
+
+.ghide-folder-row:hover {
+  background-color: rgba(128, 128, 128, 0.1); /* Theme agnostic hover */
+}
+
+.ghide-folder-row:focus-visible {
+  outline: 2px solid #a8c7fa;
+  background-color: rgba(128, 128, 128, 0.1);
+}
+
+.ghide-drag-over {
+  outline: 2px dashed #a8c7fa;
+  background-color: rgba(168, 199, 250, 0.1);
+}
+
+.ghide-folder-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+  overflow: hidden;
+  color: inherit;
+}
+
+.ghide-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ghide-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 2px;
+  opacity: 0.7;
+}
+
+.ghide-icon-btn:hover {
+  background-color: rgba(128, 128, 128, 0.15);
+  opacity: 1;
+}
+
+/* --- Folder Actions Button --- */
+.ghide-folder-actions-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; 
+    transition: opacity 0.2s;
+    margin-left: 4px;
+    width: 24px;
+    height: 24px;
+}
+
+.ghide-folder-row:hover .ghide-folder-actions-btn {
+    opacity: 0.7;
+}
+
+.ghide-folder-actions-btn:hover {
+    background-color: rgba(128, 128, 128, 0.2);
+    opacity: 1 !important;
+}
+
+
+/* --- Children / Nested Items --- */
+.ghide-children {
+  margin-left: 12px; 
+  padding-left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 1px solid rgba(128, 128, 128, 0.2); /* Subtle guide line */
+}
+
+/* --- Chat Row --- */
+.ghide-chat-row-wrapper {
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+    padding-right: 8px; 
+}
+.ghide-chat-row-wrapper:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+.ghide-chat-row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 100px;
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+  transition: background-color 0.1s;
+  overflow: hidden;
+  opacity: 0.9;
+}
+
+.ghide-chat-row:hover {
+  color: inherit;
+  opacity: 1;
+}
+
+.ghide-chat-row.active {
+  background-color: #d3e3fd; /* Light blue active background (Light Mode) */
+  color: #041e49; /* Dark blue text */
+  font-weight: 500;
+}
+/* Dark mode override via media query or specific parent class if possible. 
+   Gemini handles this via variables, but for now we pick a safe middle ground 
+   or stick to a theme-agnostic active state if needed. 
+   Ideally we should use CSS variables if we could extract them.
+   For now, let's use a semi-transparent active state that works on both.
+*/
+.ghide-chat-row.active {
+  background-color: rgba(168, 199, 250, 0.3); 
+  color: inherit;
+}
+
+.ghide-chat-icon {
+  display: flex;
+  opacity: 0.7;
+  min-width: 18px;
+  color: inherit;
+}
+
+/* --- Actions Button (Chat) --- */
+.ghide-actions-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    width: 24px;
+    height: 24px;
+}
+
+.ghide-chat-row-wrapper:hover .ghide-actions-btn {
+    opacity: 0.7;
+}
+
+.ghide-actions-btn:hover {
+    background-color: rgba(128, 128, 128, 0.2);
+    opacity: 1 !important;
+}
+
+/* --- Context Menu --- */
+.ghide-context-menu {
+    position: fixed;
+    background: #2d2e2f; /* Dark menu is standard for context menus usually, but strictly should match theme */
+    /* Let's use a dark grey that works generally */
+    background: #303134; 
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 4px 0;
+    z-index: 99999; /* Ensure on top */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    min-width: 160px;
+}
+
+.ghide-menu-item {
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #e3e3e3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ghide-menu-item:hover {
+    background-color: rgba(255,255,255,0.08);
+}
+.ghide-menu-item.danger {
+    color: #ffb4ab;
+}
+.ghide-menu-item.danger:hover {
+    background-color: rgba(255, 180, 171, 0.1);
+}
+
+/* --- Quick Move Button --- */
+.ghide-quick-move-btn {
+    opacity: 0.5;
+    margin-right: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: inherit;
+    padding: 4px;
+    border-radius: 50%;
+}
+.ghide-quick-move-btn:hover {
+    opacity: 1;
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+/* --- Modal --- */
+.ghide-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 10000; /* Very high z-index */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+}
+.ghide-modal {
+    background: #1e1f20; /* Fallback */
+    background: rgba(30, 31, 32, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-radius: 12px;
+    width: 320px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    color: #e3e3e3;
+}
+.ghide-modal-header {
+    padding: 16px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ghide-modal-close {
+    cursor: pointer;
+    opacity: 0.7;
+    padding: 4px;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ghide-modal-close:hover {
+    background: rgba(128, 128, 128, 0.1);
+}
+.ghide-modal-list {
+    overflow-y: auto;
+    padding: 8px 0;
+}
+.ghide-modal-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    color: inherit;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.ghide-modal-item:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+/* Modal Input */
+.ghide-modal-body {
+    padding: 16px;
+}
+.ghide-input {
+    width: 100%;
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 8px 12px;
+    color: #e3e3e3;
+    font-size: 14px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+.ghide-input:focus {
+    outline: 2px solid #a8c7fa;
+    border-color: transparent;
+    background: rgba(128, 128, 128, 0.05);
+}
+.ghide-btn-primary {
+    background: #a8c7fa;
+    color: #000;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+    cursor: pointer;
+    float: right;
+}
+.ghide-btn-primary:hover {
+    background: #d3e3fd;
 }

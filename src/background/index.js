@@ -1,1 +1,1 @@
-console.log('Gemfold: Background service worker loaded');
+console.log('GFold : Background service worker loaded');

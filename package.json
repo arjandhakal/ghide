@@ -1,17 +1,28 @@
 {
-  "name": "gemfold",
+  "name": "ghide",
   "version": "1.0.0",
-  "description": "",
+  "description": "Organize your Google Gemini chats into nested folders",
   "main": "index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arjan-dhakal/ghide"
+  },
+  "author": "Arjan Dhakal",
+  "license": "MIT",
   "scripts": {
     "dev": "vite build --watch",
     "build": "vite build",
+    "zip": "npm run build && zip -r ghide.zip dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "gemini",
+    "chrome-extension",
+    "folders",
+    "productivity",
+    "organization"
+  ],
   "devDependencies": {
     "vite": "^7.3.1"
   }
