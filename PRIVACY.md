@@ -1,6 +1,6 @@
 # Privacy Policy for GHide
 
-**Last Updated:** [Current Date]
+**Last Updated:** 31 Jan, 2026
 
 GHide ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how our Chrome Extension handles your data.
 
